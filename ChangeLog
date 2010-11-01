@@ -1,0 +1,7 @@
+
+==== history of XML::Compile::SOAP::AnyEvent
+
+version 0.01: Mon Nov  1 17:24:27 CET 2010
+
+	- implemented XML::Compile::Transfer::SOAPHTTP_AnyEvent.
+	  Rewrite of code contributed by [Aleksey Mashanov]
