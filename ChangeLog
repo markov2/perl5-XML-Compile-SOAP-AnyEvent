@@ -1,6 +1,11 @@
 
 ==== history of XML::Compile::SOAP::AnyEvent
 
+version 0.02: Tue Nov  9 13:20:40 CET 2010
+
+	- oops, path of module ::Transfer:: -> ::Transport::
+	  [Aleksey Mashanov]
+
 version 0.01: Mon Nov  1 17:24:27 CET 2010
 
 	- implemented XML::Compile::Transfer::SOAPHTTP_AnyEvent.

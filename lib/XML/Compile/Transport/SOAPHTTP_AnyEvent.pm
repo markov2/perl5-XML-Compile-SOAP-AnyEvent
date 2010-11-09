@@ -259,40 +259,40 @@ sub _prepare_call($)
 
        my $guard;   # keeps event running
        my $handler = sub
-        { my($data, $headers) = @_;
-          undef $guard;
+         { my($data, $headers) = @_;
+           undef $guard;
 
-          unless(defined $data)
-          {   $trace->{error} = "$headers->{Status} $headers->{Reason} with data";
-              return $callback->(undef, undef, $trace);
-          }
+           unless(defined $data)
+           {   $trace->{error} = "$headers->{Status} $headers->{Reason} with data";
+               return $callback->(undef, undef, $trace);
+           }
 
-          delete @$headers{ qw(URL HTTPVersion) };
-          my $response = $trace->{http_response} = HTTP::Response->new
-            ( delete $headers->{Status}
-            , delete $headers->{Reason}
-            , [%$headers]
-            , $data
-            );
+           delete @$headers{ qw(URL HTTPVersion) };
+           my $response = $trace->{http_response} = HTTP::Response->new
+             ( delete $headers->{Status}
+             , delete $headers->{Reason}
+             , [%$headers]
+             , $data
+             );
 
-          if($response->header('Client-Warning'))
-          {   $trace->{error} = $response->message; 
-              return $callback->(undef, undef, $trace);
-          }
+           if($response->header('Client-Warning'))
+           {   $trace->{error} = $response->message; 
+               return $callback->(undef, undef, $trace);
+           }
 
-          if($response->is_error)
-          {   $trace->{error} = $response->message;
-              # still try to parse the response for Fault blocks
-          }
+           if($response->is_error)
+           {   $trace->{error} = $response->message;
+               # still try to parse the response for Fault blocks
+           }
 
-          my ($parsed, $mtom) = try {$parse_message->($response)};
-          if($@)
-          {   $trace->{error} = $@->wasFatal->message;
-              return $callback->(undef, undef, $trace);
-          }
+           my ($parsed, $mtom) = try {$parse_message->($response)};
+           if($@)
+           {   $trace->{error} = $@->wasFatal->message;
+               return $callback->(undef, undef, $trace);
+           }
 
-          try {$callback->($parsed, $mtom, $trace)};
-        };
+           try {$callback->($parsed, $mtom, $trace)};
+         };
 
        $guard = http_request $request->method => $request->uri
          , body    => $request->content

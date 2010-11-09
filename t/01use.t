@@ -33,4 +33,4 @@ foreach my $package (@show_versions)
 
 warn "libxml2 ".XML::LibXML::LIBXML_DOTTED_VERSION()."\n";
 
-use_ok('XML::Compile::Transfer::SOAPHTTP_AnyEvent');
+use_ok('XML::Compile::Transport::SOAPHTTP_AnyEvent');
