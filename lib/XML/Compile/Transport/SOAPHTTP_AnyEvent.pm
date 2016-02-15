@@ -18,7 +18,7 @@ use Log::Report 'xml-compile-soap-anyevent', syntax => 'SHORT';
 use XML::Compile::SOAP::Util qw/SOAP11ENV SOAP11HTTP/;
 use XML::Compile   ();
 
-use AnyEvent::HTTP;
+use AnyEvent::HTTP qw/http_request/;
 use HTTP::Request  ();
 use HTTP::Response ();
 use HTTP::Headers  ();
@@ -60,11 +60,10 @@ can be used in various event-driven environments, via M<AnyEvent::HTTP>.
 
 =chapter METHODS
 
-=c_method new OPTIONS
+=c_method new %options
 
 =option  any_event_params ARRAY
 =default any_event_params []
-
 Options passed to M<AnyEvent::HTTP>, for instance C<timeout> and C<proxy>.
 The ARRAY is a list of PAIRS.
 
@@ -95,7 +94,7 @@ sub anyEventParams() { @{shift->{ae_params} || []} }
 
 =section Handlers
 
-=method compileClient OPTIONS
+=method compileClient %options
 
 Compile an HTTP client handler.  Returned is a subroutine which is called
 with a text represenation of the XML request, or an XML::LibXML tree.
@@ -206,13 +205,13 @@ sub _prepare_call($)
 
     my $content_type;
     if($version eq 'SOAP11')
-    {   $mime  ||= 'text/xml';
-        $content_type = qq{$mime; charset="$charset"};
+    {   $mime  ||= ref $soap ? $soap->mimeType : 'text/xml';
+        $content_type = qq{$mime; charset=$charset};
     }
     elsif($version eq 'SOAP12')
-    {   $mime  ||= 'application/soap+xml';
+    {   $mime  ||= ref $soap ? $soap->mimeType : 'application/soap+xml';
         my $sa   = defined $action ? qq{; action="$action"} : '';
-        $content_type = qq{$mime; charset="$charset"$sa};
+        $content_type = qq{$mime; charset=$charset$sa};
         $header->header(Accept => $mime);  # not the HTML answer
     }
     else
@@ -294,15 +293,18 @@ sub _prepare_call($)
            try {$callback->($parsed, $mtom, $trace)};
          };
 
+       # Repack headers from HTTP::Headers into AnyEvent::HTTP's HASH
+       my %headers = $request->headers->flatten;
+
        $guard = http_request $request->method => $request->uri
+         , headers => \%headers
          , body    => $request->content
-         , headers => $request->headers
          , $self->anyEventParams
          , $handler;
      };
 }
 
-=ci_method headerAddVersions HEADER
+=ci_method headerAddVersions $header
 Adds some lines about module versions, which may help debugging
 or error reports.  This is called when a new client or server
 is being created.

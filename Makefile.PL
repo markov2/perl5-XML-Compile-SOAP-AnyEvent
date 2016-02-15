@@ -4,12 +4,13 @@ use 5.008;
 
 WriteMakefile
  ( NAME	 	=> 'XML::Compile::SOAP::AnyEvent'
- , VERSION	=> '0.02'
+ , VERSION	=> '0.90'
  , PREREQ_PM    =>
-   { XML::Compile::SOAP   => '2.19'
-   , Log::Report          => '0.28'
+   { XML::Compile::SOAP   => '3.05'
+   , Log::Report          => '1.05'
    , Time::HiRes          => 0
    , AnyEvent::HTTP       => '1.46'
+   , HTTP::Message        => '6.07'
    }
  , AUTHOR       => 'Aleksey Mashanov/Mark Overmeer'
  , ABSTRACT     => 'SOAP with AnyEvent'
