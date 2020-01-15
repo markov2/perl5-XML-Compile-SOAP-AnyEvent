@@ -1,6 +1,8 @@
 
 ==== history of XML::Compile::SOAP::AnyEvent
 
+version 0.92:
+
 version 0.91: Wed 15 Jan 12:41:27 CET 2020
 
 	Fixes:
