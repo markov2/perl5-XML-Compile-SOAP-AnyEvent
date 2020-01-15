@@ -1,6 +1,15 @@
 
 ==== history of XML::Compile::SOAP::AnyEvent
 
+version 0.91: Wed 15 Jan 12:41:27 CET 2020
+
+	Fixes:
+	- Pause now requires the module named in the distro to be present.
+
+	Improvements:
+	- convert to GitHUB
+	- require perl 5.10
+
 version 0.90: Mon Feb 15 21:24:45 CET 2016
 
 	Fixes:

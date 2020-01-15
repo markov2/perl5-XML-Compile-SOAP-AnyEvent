@@ -1,8 +1,12 @@
-use warnings;
-use strict;
+# This code is part of distribution XML-Compile-SOAP-AnyEvent.  Meta-POD
+# processed with OODoc into POD and HTML manual-pages.  See README.md
+# Copyright Mark Overmeer.  Licensed under the same terms as Perl itself.
 
 package XML::Compile::Transport::SOAPHTTP_AnyEvent;
 use base 'XML::Compile::Transport';
+
+use warnings;
+use strict;
 
 use XML::Compile::Transport::SOAPHTTP;
 
@@ -14,7 +18,7 @@ BEGIN {
    }
 }
 
-use Log::Report 'xml-compile-soap-anyevent', syntax => 'SHORT';
+use Log::Report 'xml-compile-soap-anyevent';
 use XML::Compile::SOAP::Util qw/SOAP11ENV SOAP11HTTP/;
 use XML::Compile   ();
 

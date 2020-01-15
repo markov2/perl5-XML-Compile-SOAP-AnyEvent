@@ -1,6 +1,8 @@
 ChangeLog
 MANIFEST
 Makefile.PL
+README.md
+lib/XML/Compile/SOAP/AnyEvent.pm
 lib/XML/Compile/Transport/SOAPHTTP_AnyEvent.pm
 t/01use.t
 xt/99pod.t
